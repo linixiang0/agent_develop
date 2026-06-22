@@ -1,0 +1,19 @@
+<svg viewBox="0 0 900 430" role="img" aria-label="聊天创建数据库记录 Demo 图">
+  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
+  <rect x="45" y="35" width="810" height="350" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="75" y="70" width="500" height="62" rx="8" fill="#e0f2fe" stroke="#bae6fd"/>
+  <text x="100" y="96" font-size="14" font-weight="800">用户</text>
+  <text x="100" y="118" font-size="14">帮我创建一条待办：明天提交开题报告，紧急</text>
+  <rect x="75" y="160" width="500" height="92" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="100" y="188" font-size="14" font-weight="800">Agent</text>
+  <text x="100" y="214" font-size="14">已创建办事记录：#1 [open] 提交开题报告</text>
+  <text x="100" y="238" font-size="13">分类：论文与学位 ｜ 优先级：high ｜ 截止：2026-06-23</text>
+  <rect x="625" y="70" width="185" height="182" rx="8" fill="#dcfce7" stroke="#86efac"/>
+  <text x="718" y="104" text-anchor="middle" font-size="16" font-weight="800">SQLite 写入</text>
+  <text x="650" y="138" font-size="13">table: service_requests</text>
+  <text x="650" y="164" font-size="13">status: open</text>
+  <text x="650" y="190" font-size="13">priority: high</text>
+  <text x="650" y="216" font-size="13">user_id: 当前用户</text>
+  <rect x="75" y="285" width="735" height="55" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="442" y="318" text-anchor="middle" font-size="14" font-weight="700">聊天入口和办事待办页面共享同一份数据库记录</text>
+</svg>

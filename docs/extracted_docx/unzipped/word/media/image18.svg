@@ -1,0 +1,9 @@
+<svg viewBox="0 0 900 280" role="img" aria-label="本地自动化测试结果图">
+  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
+  <rect x="55" y="45" width="790" height="190" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="190" y="95" font-size="18" font-weight="800" text-anchor="middle">RAG Pipeline</text><text x="190" y="132" font-size="28" font-weight="800" text-anchor="middle">2 passed</text><text x="190" y="165" font-size="13" font-weight="500" text-anchor="middle">导入 / 检索 / 回答</text>
+  <text x="450" y="95" font-size="18" font-weight="800" text-anchor="middle">MCP Server</text><text x="450" y="132" font-size="28" font-weight="800" text-anchor="middle">2 passed</text><text x="450" y="165" font-size="13" font-weight="500" text-anchor="middle">tools/list / tools/call</text>
+  <text x="710" y="95" font-size="18" font-weight="800" text-anchor="middle">Agent Actions</text><text x="710" y="132" font-size="28" font-weight="800" text-anchor="middle">3 passed</text><text x="710" y="165" font-size="13" font-weight="500" text-anchor="middle">创建 / 查询 / 完成待办</text>
+  <path d="M115 205 H785" stroke="#16a34a" stroke-width="4"/>
+  <text x="450" y="230" font-size="14" font-weight="700" text-anchor="middle">pytest 总结果：7 passed，本地核心能力验证通过。</text>
+</svg>

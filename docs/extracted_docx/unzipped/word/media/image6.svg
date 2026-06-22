@@ -1,0 +1,13 @@
+<svg viewBox="0 0 900 260" role="img" aria-label="Agent 状态机">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/></marker></defs>
+  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
+  <rect x="30" y="90" width="130" height="70" rx="8" fill="#dbeafe" stroke="#64748b"/><text x="95" y="117" font-size="14" font-weight="700" text-anchor="middle">plan</text><text x="95" y="140" font-size="12" font-weight="400" text-anchor="middle">识别意图</text>
+  <rect x="210" y="30" width="140" height="70" rx="8" fill="#dcfce7" stroke="#64748b"/><text x="280" y="57" font-size="14" font-weight="700" text-anchor="middle">retrieve</text><text x="280" y="80" font-size="12" font-weight="400" text-anchor="middle">检索证据</text>
+  <rect x="210" y="150" width="140" height="70" rx="8" fill="#fce7f3" stroke="#64748b"/><text x="280" y="177" font-size="14" font-weight="700" text-anchor="middle">act</text><text x="280" y="200" font-size="12" font-weight="400" text-anchor="middle">系统工具</text>
+  <rect x="410" y="90" width="140" height="70" rx="8" fill="#fef3c7" stroke="#64748b"/><text x="480" y="117" font-size="14" font-weight="700" text-anchor="middle">answer</text><text x="480" y="140" font-size="12" font-weight="400" text-anchor="middle">生成回答</text>
+  <rect x="610" y="90" width="140" height="70" rx="8" fill="#f1f5f9" stroke="#64748b"/><text x="680" y="117" font-size="14" font-weight="700" text-anchor="middle">observe</text><text x="680" y="140" font-size="12" font-weight="400" text-anchor="middle">日志记录</text>
+  <rect x="800" y="90" width="70" height="70" rx="8" fill="#e2e8f0" stroke="#64748b"/><text x="835" y="117" font-size="14" font-weight="700" text-anchor="middle">done</text><text x="835" y="140" font-size="12" font-weight="400" text-anchor="middle">结束</text>
+  <path d="M160 112 L210 68" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M160 138 L210 182" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <path d="M350 65 L410 112" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M350 185 L410 138" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <path d="M550 125 L610 125" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M750 125 L800 125" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg viewBox="0 0 900 300" role="img" aria-label="聊天操作数据库测试图">
+  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
+  <rect x="55" y="45" width="790" height="200" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="450" y="86" text-anchor="middle" font-size="22" font-weight="800">tests/test_agent_actions.py</text>
+  <text x="185" y="145" text-anchor="middle" font-size="28" font-weight="800">创建</text>
+  <text x="185" y="176" text-anchor="middle" font-size="13">create_service_request</text>
+  <text x="450" y="145" text-anchor="middle" font-size="28" font-weight="800">查询</text>
+  <text x="450" y="176" text-anchor="middle" font-size="13">list_service_requests</text>
+  <text x="715" y="145" text-anchor="middle" font-size="28" font-weight="800">完成</text>
+  <text x="715" y="176" text-anchor="middle" font-size="13">update_service_request</text>
+  <path d="M120 215 H780" stroke="#16a34a" stroke-width="4"/>
+  <text x="450" y="238" text-anchor="middle" font-size="14" font-weight="700">3 passed，并验证 LLM Router 优先于本地规则</text>
+</svg>

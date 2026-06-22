@@ -1,0 +1,23 @@
+<svg viewBox="0 0 900 410" role="img" aria-label="数据库表设计图">
+  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/></marker></defs>
+  <rect x="70" y="45" width="340" height="300" rx="10" fill="#f8fafc" stroke="#64748b"/>
+  <text x="240" y="82" text-anchor="middle" font-size="20" font-weight="800">service_requests</text>
+  <text x="105" y="120" font-size="14">id: integer primary key</text>
+  <text x="105" y="148" font-size="14">user_id: 所属用户</text>
+  <text x="105" y="176" font-size="14">category: 业务分类</text>
+  <text x="105" y="204" font-size="14">title / details: 标题与描述</text>
+  <text x="105" y="232" font-size="14">status: open / done / cancelled</text>
+  <text x="105" y="260" font-size="14">priority: low / normal / high</text>
+  <text x="105" y="288" font-size="14">due_date / created_at / updated_at</text>
+  <rect x="490" y="45" width="340" height="300" rx="10" fill="#f8fafc" stroke="#64748b"/>
+  <text x="660" y="82" text-anchor="middle" font-size="20" font-weight="800">agent_action_logs</text>
+  <text x="525" y="120" font-size="14">id: integer primary key</text>
+  <text x="525" y="148" font-size="14">user_id / conversation_id</text>
+  <text x="525" y="176" font-size="14">tool_name: 工具名称</text>
+  <text x="525" y="204" font-size="14">arguments_json: 结构化入参</text>
+  <text x="525" y="232" font-size="14">result_json: 工具返回</text>
+  <text x="525" y="260" font-size="14">created_at: 调用时间</text>
+  <path d="M410 165 H490" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="450" y="150" text-anchor="middle" font-size="13">审计</text>
+</svg>

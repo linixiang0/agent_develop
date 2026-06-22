@@ -6,7 +6,7 @@
   <style>
     @page { size: A4; margin: 18mm 16mm; }
     * { box-sizing: border-box; }
-    body { margin: 0; color: #111827; font-family: "Microsoft YaHei", "Noto Sans CJK SC", "SimSun", Arial, sans-serif; line-height: 1.68; }
+    body { margin: 0; color: #111827; font-family: "Microsoft YaHei", "Noto Sans CJK SC", "SimSun", Arial, sans-serif; line-height: 1.72; }
     main { max-width: 920px; margin: 0 auto; }
     .cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; }
     .cover h1 { font-size: 30px; text-align: center; margin: 0 0 36px; letter-spacing: 0; }
@@ -14,7 +14,7 @@
     .cover th { width: 28%; background: #eef2f7; text-align: left; }
     h2 { font-size: 22px; margin-top: 28px; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px; page-break-after: avoid; }
     h3 { font-size: 17px; margin-top: 20px; color: #0f172a; page-break-after: avoid; }
-    p { margin: 8px 0; text-align: justify; }
+    p { margin: 8px 0; text-align: justify; text-indent: 2em; }
     ul, ol { margin: 8px 0 12px 22px; padding: 0; }
     li { margin: 4px 0; }
     code { background: #f2f4f8; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px 4px; font-family: Consolas, monospace; }
@@ -23,15 +23,16 @@
     table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 14px; page-break-inside: avoid; }
     th, td { border: 1px solid #cbd5e1; padding: 7px 9px; vertical-align: top; }
     th { background: #eef2f7; }
+    .table-caption { margin: 14px 0 6px; color: #1e293b; font-size: 13px; font-weight: 700; text-align: center; }
     .toc { border: 1px solid #cbd5e1; background: #f8fafc; padding: 18px 22px; margin: 0 0 24px; page-break-after: always; }
     .toc h2 { margin-top: 0; border-bottom: 0; }
     .toc a { display: block; color: #1d4ed8; text-decoration: none; margin: 4px 0; }
     .toc-l3 { padding-left: 20px; font-size: 14px; }
     .diagram { margin: 12px 0 18px; page-break-inside: avoid; }
     .diagram svg { width: 100%; height: auto; display: block; }
-    .screenshot { margin: 12px 0 18px; page-break-inside: avoid; }
-    .screenshot img { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; display: block; }
-    .screenshot figcaption { color: #475569; font-size: 13px; text-align: center; margin-top: 6px; }
+    .screenshot { margin: 14px 0 20px; padding: 8px; background: #ffffff; border: 1px solid #d8e1ee; border-radius: 6px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); page-break-inside: avoid; }
+    .screenshot img { width: 100%; height: auto; border: 0; border-radius: 3px; display: block; image-rendering: auto; }
+    .screenshot figcaption { color: #1e293b; font-size: 13px; font-weight: 600; text-align: center; margin-top: 7px; }
     @media print { a { color: inherit; } }
   </style>
 </head>
@@ -51,6 +52,7 @@
 <p>因此，本项目采用 Agentic RAG 技术路线：RAG 负责把答案约束在知识库证据内，Agent 负责把问题转化为工具调用与多步状态流转，API 与 Web 工作台负责承载真实用户交互，评估脚本负责验证行为质量。</p>
 <h3 id="1-3-项目价值">1.3 项目价值</h3>
 <p>项目价值体现在三个层面。第一，面向用户，它能把分散资料转化为可追问、可引用、可复核的问答体验。第二，面向课程，它覆盖 SDD 规格驱动、Agent 工具调用、记忆机制、MCP 协议、测试评估和可观测性等课程重点。第三，面向工程实践，它不是孤立脚本，而是包含 CLI、FastAPI、Web 工作台、数据库、评估集、日志和 MCP Server 的完整应用雏形。</p>
+<p>从评分项看，本项目的交付物与课程要求逐项对应：选题与设计思想对应研究生教务资料分散、答案需可追溯的问题；Specs 对应 <code>docs/product_spec.md</code>、<code>docs/architecture_spec.md</code> 和 <code>docs/api_spec.md</code>；系统架构对应 Agentic RAG 闭环、工具注册、数据库和 Web 工作台；关键实现对应 <code>EduRagAgent</code> 状态机、受控工具、DeepSeek/OpenAI 兼容生成和 MCP Server；测试评估对应 pytest、25 条评估集、来源命中率和 DeepSeek 联调结果；扩展章节则说明向真实向量库、LangGraph、Trace 可视化和云部署演进的路径。</p>
 <h3 id="1-4-技术路线">1.4 技术路线</h3>
 <p>技术路线分为四层：资料层、检索层、Agent 层和应用层。资料层负责导入 Markdown、TXT、PDF 等文件；检索层把资料切分为 chunk 并构建本地向量/词频索引；Agent 层以 <code>plan -&gt; retrieve/act -&gt; answer -&gt; observe</code> 作为核心循环；应用层提供 CLI、HTTP API、Web 页面和 MCP stdio Server。系统默认使用本地抽取式生成，配置 DeepSeek/OpenAI 兼容接口后可切换为 LLM 生成。</p>
 <figure class="diagram">
@@ -83,6 +85,7 @@
 <p>该规格的核心设计原则是“入口多样，核心复用”。CLI、Web API 和 MCP Server 都通过 <code>build_agent()</code> 组装同一个 Agent，因此不会出现多套问答逻辑不一致的问题。</p>
 <h3 id="2-3-api-spec">2.3 API Spec</h3>
 <p>API Spec 位于 <code>docs/api_spec.md</code>，覆盖 Health、Auth、Ask、Conversation、Knowledge、Service Request 和 MCP Tool。关键接口如下：</p>
+<div class="table-caption">表 1 API 接口与 MCP 工具说明</div>
 <table><thead><tr><th>类型</th><th>接口 / 工具</th><th>作用</th></tr></thead><tbody><tr><td>Health</td><td><code>GET /health</code></td><td>检查服务状态</td></tr><tr><td>Auth</td><td><code>POST /api/register</code>、<code>POST /api/login</code></td><td>注册、登录并写入 HttpOnly Cookie</td></tr><tr><td>Ask</td><td><code>POST /api/ask</code></td><td>基于会话上下文调用 Agent 问答</td></tr><tr><td>Conversation</td><td><code>GET /api/conversations</code></td><td>管理多轮会话</td></tr><tr><td>Knowledge</td><td><code>GET /api/knowledge</code>、<code>GET /api/knowledge/{chunk_id}</code></td><td>浏览知识库和来源详情</td></tr><tr><td>Action</td><td><code>GET/POST/PATCH /api/service-requests</code></td><td>创建、查询、更新个人办事记录</td></tr><tr><td>MCP</td><td><code>search_knowledge_base</code></td><td>向外部 MCP Host 暴露知识库检索能力</td></tr></tbody></table>
 <p>API 规格体现了 SDD 的可执行性：接口字段、错误策略、鉴权方式和工具 schema 都能在代码中找到对应实现。</p>
 <figure class="diagram">
@@ -104,26 +107,7 @@
 <h2 id="三-系统架构与设计">三、系统架构与设计</h2>
 <h3 id="3-1-核心架构图">3.1 核心架构图</h3>
 <p>系统以 Agentic RAG 为中心，围绕资料导入、证据检索、工具调用、答案生成和行为记录形成闭环。</p>
-<figure class="diagram">
-<svg viewBox="0 0 900 480" role="img" aria-label="EduRAG-Agent 系统架构图">
-  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/></marker></defs>
-  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
-  <rect x="30" y="40" width="170" height="70" rx="8" fill="#e0f2fe" stroke="#64748b"/><text x="115" y="67" font-size="14" font-weight="700" text-anchor="middle">资料层</text><text x="115" y="90" font-size="12" font-weight="400" text-anchor="middle">课程 / 教务 / 校园</text>
-  <rect x="250" y="40" width="150" height="70" rx="8" fill="#fef3c7" stroke="#64748b"/><text x="325" y="67" font-size="14" font-weight="700" text-anchor="middle">Loader</text><text x="325" y="90" font-size="12" font-weight="400" text-anchor="middle">文档读取</text>
-  <rect x="450" y="40" width="150" height="70" rx="8" fill="#fef3c7" stroke="#64748b"/><text x="525" y="67" font-size="14" font-weight="700" text-anchor="middle">Splitter</text><text x="525" y="90" font-size="12" font-weight="400" text-anchor="middle">文本切分</text>
-  <rect x="650" y="40" width="170" height="70" rx="8" fill="#dcfce7" stroke="#64748b"/><text x="735" y="67" font-size="14" font-weight="700" text-anchor="middle">Vector Store</text><text x="735" y="90" font-size="12" font-weight="400" text-anchor="middle">本地检索索引</text>
-  <path d="M200 75 L250 75" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M400 75 L450 75" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M600 75 L650 75" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
-  <rect x="30" y="200" width="170" height="70" rx="8" fill="#ede9fe" stroke="#64748b"/><text x="115" y="227" font-size="14" font-weight="700" text-anchor="middle">入口层</text><text x="115" y="250" font-size="12" font-weight="400" text-anchor="middle">CLI / Web / MCP</text>
-  <rect x="250" y="200" width="170" height="70" rx="8" fill="#dbeafe" stroke="#64748b"/><text x="335" y="227" font-size="14" font-weight="700" text-anchor="middle">EduRagAgent</text><text x="335" y="250" font-size="12" font-weight="400" text-anchor="middle">plan / act / observe</text>
-  <rect x="470" y="200" width="170" height="70" rx="8" fill="#fce7f3" stroke="#64748b"/><text x="555" y="227" font-size="14" font-weight="700" text-anchor="middle">ToolRegistry</text><text x="555" y="250" font-size="12" font-weight="400" text-anchor="middle">工具 schema</text>
-  <rect x="690" y="200" width="170" height="70" rx="8" fill="#dcfce7" stroke="#64748b"/><text x="775" y="227" font-size="14" font-weight="700" text-anchor="middle">Answer</text><text x="775" y="250" font-size="12" font-weight="400" text-anchor="middle">答案 + 来源</text>
-  <path d="M200 235 L250 235" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M420 235 L470 235" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M640 235 L690 235" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
-  <path d="M555 200 L720 110" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M735 110 L735 200" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
-  <rect x="250" y="350" width="170" height="70" rx="8" fill="#f1f5f9" stroke="#64748b"/><text x="335" y="377" font-size="14" font-weight="700" text-anchor="middle">AppStore</text><text x="335" y="400" font-size="12" font-weight="400" text-anchor="middle">用户 / 会话 / 待办</text>
-  <rect x="470" y="350" width="170" height="70" rx="8" fill="#f1f5f9" stroke="#64748b"/><text x="555" y="377" font-size="14" font-weight="700" text-anchor="middle">JSONL Logs</text><text x="555" y="400" font-size="12" font-weight="400" text-anchor="middle">行为观测</text>
-  <path d="M335 270 L335 350" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M420 235 L555 350" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
-</svg>
-</figure>
+<figure class="screenshot"><img src="assets/architecture_overview.png" alt="图 1 EduRAG-Agent 核心架构"><figcaption>图 1 EduRAG-Agent 核心架构</figcaption></figure>
 <p>架构的关键点是把“问答生成”与“系统动作”统一纳入工具调用框架。知识类问题走 <code>search_knowledge_base</code>；个人办事类问题走 <code>create_service_request</code>、<code>list_service_requests</code> 或 <code>update_service_request</code>；所有路径最终都会进入 <code>observe</code> 阶段写入日志。</p>
 <h3 id="3-2-agent-交互流程">3.2 Agent 交互流程</h3>
 <p>Agent 核心循环位于 <code>app/agent/graph.py</code>。一次请求会经历以下状态：</p>
@@ -206,6 +190,7 @@
 </svg>
 </figure>
 <h3 id="3-5-模块职责">3.5 模块职责</h3>
+<div class="table-caption">表 2 核心模块职责</div>
 <table><thead><tr><th>模块</th><th>文件</th><th>主要职责</th></tr></thead><tbody><tr><td>文档加载</td><td><code>app/rag/loader.py</code></td><td>读取 Markdown、TXT、PDF 资料</td></tr><tr><td>文本切分</td><td><code>app/rag/splitter.py</code></td><td>按长度和标题切分知识片段</td></tr><tr><td>本地检索</td><td><code>app/rag/vectorstore.py</code></td><td>构建词频向量并执行相似度检索</td></tr><tr><td>工具注册</td><td><code>app/agent/tools.py</code></td><td>注册检索工具和办事工具</td></tr><tr><td>Agent 状态机</td><td><code>app/agent/graph.py</code></td><td>规划、检索/行动、回答、记录</td></tr><tr><td>LLM 适配</td><td><code>app/llm/provider.py</code></td><td>本地抽取式生成与 OpenAI 兼容生成</td></tr><tr><td>Web 应用</td><td><code>app/main.py</code></td><td>FastAPI、登录、会话、知识库和工作台页面</td></tr><tr><td>MCP 服务</td><td><code>app/mcp_server.py</code></td><td>通过 stdio JSON-RPC 暴露检索工具</td></tr><tr><td>评估器</td><td><code>app/eval/evaluator.py</code></td><td>执行测试集并生成评估报告</td></tr><tr><td>数据库</td><td><code>app/core/db.py</code></td><td>SQLite 用户、会话、办事记录和 Agent 动作日志</td></tr></tbody></table>
 <h2 id="四-关键实现与代码展示">四、关键实现与代码展示</h2>
 <h3 id="4-1-agent-核心循环">4.1 Agent 核心循环</h3>
@@ -237,14 +222,16 @@ state.step = &quot;done&quot;</code></pre>
 </figure>
 <h3 id="4-2-工具定义">4.2 工具定义</h3>
 <p>工具定义位于 <code>app/agent/tools.py</code>。系统当前注册四类工具：</p>
+<div class="table-caption">表 3 Agent 工具定义与权限边界</div>
 <table><thead><tr><th>工具</th><th>用途</th><th>权限边界</th></tr></thead><tbody><tr><td><code>search_knowledge_base</code></td><td>检索课程、教务和校园服务资料</td><td>不需要登录，只读知识库</td></tr><tr><td><code>create_service_request</code></td><td>创建用户个人办事/待办记录</td><td>需要 <code>user_id</code></td></tr><tr><td><code>list_service_requests</code></td><td>查询当前用户办事记录</td><td>需要 <code>user_id</code></td></tr><tr><td><code>update_service_request</code></td><td>更新办事记录状态</td><td>需要 <code>user_id</code> 且只能操作本人记录</td></tr></tbody></table>
 <p>工具 schema 使用 JSON Schema 形式描述参数，便于 LLM Router、HTTP API 和 MCP Tool 复用。系统动作不是让 Agent 直接操作数据库，而是通过 <code>AppStore</code> 的受控方法执行，从而保证权限隔离和数据结构一致。</p>
 <h3 id="4-3-配置文件与安全处理">4.3 配置文件与安全处理</h3>
 <p>配置位于 <code>.env.example</code> 和 <code>app/core/config.py</code>。系统允许配置 <code>LLM_PROVIDER</code>、<code>LLM_API_KEY</code>、<code>LLM_BASE_URL</code>、<code>LLM_MODEL</code> 等环境变量。没有 API Key 时系统自动使用本地抽取式生成，不影响课程演示；有 API Key 时可切换到 DeepSeek/OpenAI 兼容接口。</p>
 <p>安全处理包括：密码使用 PBKDF2 + salt 存储；登录态使用 HttpOnly Cookie；知识库与日志路径由配置集中管理；API Key 不写入代码仓库；个人办事记录按 <code>user_id</code> 隔离。</p>
 <h3 id="4-4-web-工作台与-ai-ide-使用截图说明">4.4 Web 工作台与 AI IDE 使用截图说明</h3>
-<p>Web 工作台由 <code>app/main.py</code> 提供，支持注册登录、多轮会话、知识库浏览、来源详情、系统统计和办事记录。由于报告生成环境无法自动截取交互窗口，本报告在 Demo 展示部分以可复现实验命令和页面功能截图位说明替代真实截图；实际答辩时可运行 <code>uvicorn app.main:app --reload --port 8000</code> 打开 <code>http://127.0.0.1:8000</code> 展示。</p>
+<p>Web 工作台由 <code>app/main.py</code> 提供，支持注册登录、多轮会话、知识库浏览、来源详情、系统统计和办事记录。当前项目已经完成真实页面联调，运行 <code>uvicorn app.main:app --reload --port 8000</code> 后可在 <code>http://127.0.0.1:8000</code> 打开工作台。页面顶部会显示 DeepSeek API 状态、当前用户和功能入口；智能问答区展示模型、耗时、上下文数量和回答内容；来源区和知识详情页用于复核检索证据；“我的待办”页面与聊天工具共享同一套 SQLite 数据。</p>
 <p>AI IDE 使用过程主要体现在三类产物中：第一，使用规格文档驱动实现，先写 Product/Architecture/API Spec 再落代码；第二，在 AI IDE 中围绕 Agent 核心循环、工具 schema、MCP Server 和评估脚本多轮迭代；第三，通过测试和评估报告反向修正检索字段、来源展示和系统动作边界。</p>
+<figure class="screenshot"><img src="assets/ai_ide_usage.png" alt="图 2 AI IDE 中使用 Codex 辅助开发与报告整理"><figcaption>图 2 AI IDE 中使用 Codex 辅助开发与报告整理</figcaption></figure>
 <h3 id="4-5-聊天操作数据库实现">4.5 聊天操作数据库实现</h3>
 <p>聊天操作数据库功能由 <code>app/agent/graph.py</code>、<code>app/agent/tools.py</code>、<code>app/core/db.py</code> 和 <code>app/main.py</code> 共同完成。用户在聊天框输入自然语言后，Agent 会优先让 DeepSeek/OpenAI-compatible Router 判断是否需要系统工具；如果外部 LLM 不可用，则退回本地规则解析。命中系统动作时，Agent 不进入知识库生成，而是调用工具并返回结构化执行结果。</p>
 <pre><code class="language-python">intent = self.generator.plan_system_action(state.question, history=state.history)
@@ -255,6 +242,7 @@ if intent:
 else:
     state.selected_tool = &quot;search_knowledge_base&quot;</code></pre>
 <p>数据库操作覆盖三类动作：</p>
+<div class="table-caption">表 4 聊天操作数据库动作映射</div>
 <table><thead><tr><th>用户表达</th><th>工具</th><th>数据库行为</th></tr></thead><tbody><tr><td><code>帮我创建一条待办：明天提交开题报告，紧急</code></td><td><code>create_service_request</code></td><td>向 <code>service_requests</code> 插入 <code>open</code> 状态记录</td></tr><tr><td><code>查看我的待办</code>、<code>查看全部办事记录</code></td><td><code>list_service_requests</code></td><td>按 <code>user_id</code> 和状态过滤查询</td></tr><tr><td><code>完成待办 1</code>、<code>取消工单 #2</code></td><td><code>update_service_request</code></td><td>更新本人记录的 <code>status</code> 字段</td></tr></tbody></table>
 <figure class="diagram">
 <svg viewBox="0 0 900 430" role="img" aria-label="聊天创建数据库记录 Demo 图">
@@ -283,6 +271,7 @@ else:
 <h2 id="五-测试与评估">五、测试与评估</h2>
 <h3 id="5-1-自动化测试">5.1 自动化测试</h3>
 <p>项目包含三组自动化测试：</p>
+<div class="table-caption">表 5 自动化测试覆盖范围</div>
 <table><thead><tr><th>测试文件</th><th>覆盖内容</th></tr></thead><tbody><tr><td><code>tests/test_rag_pipeline.py</code></td><td>文档导入、切分、知识库构建、检索和问答闭环</td></tr><tr><td><code>tests/test_mcp_server.py</code></td><td>MCP 工具列表和工具调用</td></tr><tr><td><code>tests/test_agent_actions.py</code></td><td>Agent 创建、查询、完成个人办事记录，以及 LLM Router 优先级</td></tr></tbody></table>
 <p>测试覆盖了本项目最关键的风险点：检索是否能命中证据、MCP 工具是否可被外部调用、系统动作是否受权限和状态约束。</p>
 <figure class="diagram">
@@ -315,6 +304,7 @@ else:
 <h3 id="5-2-agent-行为评估">5.2 Agent 行为评估</h3>
 <p>评估集位于 <code>app/eval/test_cases.json</code>，共 25 条用例，覆盖 CS599 提交要求、报告章节、GitHub 仓库要求、核心技术点、MCP 加分项、PDF 导航要求，以及学籍、培养计划、课程考试、论文、奖助、VPN、图书馆、科研伦理和资料透明度等教务场景。</p>
 <p>当前评估报告位于 <code>docs/evaluation_report.md</code>。汇总结果如下：</p>
+<div class="table-caption">表 6 Agent 行为评估汇总</div>
 <table><thead><tr><th>指标</th><th>结果</th></tr></thead><tbody><tr><td>测试用例数</td><td>25</td></tr><tr><td>平均关键词命中率</td><td>1.00</td></tr><tr><td>平均来源命中率</td><td>1.00</td></tr><tr><td>平均耗时</td><td>约 2 ms</td></tr><tr><td>自动化测试</td><td>7 passed</td></tr></tbody></table>
 <figure class="diagram">
 <svg viewBox="0 0 900 270" role="img" aria-label="测试评估结果图">
@@ -338,90 +328,29 @@ python -m app.cli ask &quot;报告 PDF 必须包含哪些章节？&quot;
 python -m app.cli eval --dataset app/eval/test_cases.json --output docs/evaluation_report.md
 pytest
 uvicorn app.main:app --reload --port 8000</code></pre>
-<figure class="screenshot"><img src="assets/web_workbench.png" alt="Demo 截图：EduRAG-Agent Web 工作台登录页"><figcaption>Demo 截图：EduRAG-Agent Web 工作台登录页</figcaption></figure>
-<figure class="diagram">
-<svg viewBox="0 0 900 440" role="img" aria-label="问答 Demo 展示图">
-  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
-  <rect x="45" y="35" width="810" height="370" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-  <rect x="45" y="35" width="210" height="370" rx="10" fill="#eef2ff" stroke="#cbd5e1"/>
-  <text x="75" y="75" font-size="22" font-weight="800">EduRAG-Agent</text>
-  <text x="75" y="115" font-size="13">会话列表</text>
-  <rect x="70" y="135" width="155" height="42" rx="6" fill="#dbeafe"/>
-  <text x="148" y="162" text-anchor="middle" font-size="13">CS599 报告要求</text>
-  <rect x="285" y="65" width="520" height="62" rx="8" fill="#e0f2fe" stroke="#bae6fd"/>
-  <text x="310" y="92" font-size="14" font-weight="700">用户</text>
-  <text x="310" y="114" font-size="14">报告 PDF 必须包含哪些章节？</text>
-  <rect x="285" y="155" width="520" height="165" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-  <text x="310" y="184" font-size="14" font-weight="700">Agent 回答</text>
-  <text x="310" y="214" font-size="14">1. 选题背景与设计思想</text>
-  <text x="310" y="238" font-size="14">2. Specs 规格文档</text>
-  <text x="310" y="262" font-size="14">3. 系统架构与设计；4. 关键实现与代码展示</text>
-  <text x="310" y="286" font-size="14">5. 测试与评估；6. 系统升级与扩展；7. 课程总结</text>
-  <text x="310" y="308" font-size="13" fill="#2563eb">来源：资料1、资料3</text>
-  <rect x="285" y="345" width="155" height="36" rx="6" fill="#2563eb"/>
-  <text x="362" y="368" text-anchor="middle" font-size="14" fill="#ffffff">查看来源详情</text>
-</svg>
-</figure>
-<figure class="diagram">
-<svg viewBox="0 0 900 390" role="img" aria-label="来源详情 Demo 展示图">
-  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
-  <rect x="50" y="40" width="800" height="300" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-  <text x="85" y="82" font-size="22" font-weight="800">来源详情</text>
-  <rect x="85" y="105" width="720" height="55" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
-  <text x="110" y="130" font-size="14" font-weight="700">资料1：cs599_course_requirements / 报告要求</text>
-  <text x="110" y="150" font-size="12">path: data/raw/cs599_course_requirements.md ｜ score: 0.9913</text>
-  <rect x="85" y="180" width="720" height="115" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
-  <text x="110" y="212" font-size="14">报告章节要求：选题背景与设计思想、Specs 规格文档、系统架构与设计、</text>
-  <text x="110" y="238" font-size="14">关键实现与代码展示、测试与评估、系统升级与扩展、课程总结。</text>
-  <text x="110" y="264" font-size="14">PDF 必须包含可用导航窗格，便于评阅翻阅。</text>
-  <rect x="640" y="305" width="165" height="34" rx="6" fill="#dcfce7" stroke="#86efac"/>
-  <text x="722" y="327" text-anchor="middle" font-size="13" font-weight="700">证据可追溯</text>
-</svg>
-</figure>
-<figure class="diagram">
-<svg viewBox="0 0 900 430" role="img" aria-label="聊天操作数据库交互展示图">
-  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
-  <rect x="45" y="35" width="810" height="350" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-  <rect x="65" y="55" width="250" height="310" rx="8" fill="#eef2ff" stroke="#cbd5e1"/>
-  <text x="190" y="88" text-anchor="middle" font-size="18" font-weight="800">聊天可完成的操作</text>
-  <text x="95" y="130" font-size="14">创建待办：提交开题报告</text>
-  <text x="95" y="165" font-size="14">查看待办：查看我的待办</text>
-  <text x="95" y="200" font-size="14">更新状态：完成待办 1</text>
-  <text x="95" y="235" font-size="14">自动分类：论文与学位</text>
-  <rect x="350" y="75" width="455" height="72" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="380" y="105" font-size="15" font-weight="800">我的办事待办</text>
-  <text x="380" y="130" font-size="14">#1 提交开题报告 ｜ open ｜ high ｜ 2026-06-23</text>
-  <rect x="350" y="178" width="455" height="72" rx="8" fill="#dcfce7" stroke="#86efac"/>
-  <text x="380" y="208" font-size="15" font-weight="800">聊天更新后</text>
-  <text x="380" y="233" font-size="14">#1 提交开题报告 ｜ done ｜ high ｜ 2026-06-23</text>
-  <rect x="350" y="282" width="455" height="45" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
-  <text x="578" y="310" text-anchor="middle" font-size="14" font-weight="700">聊天、HTTP API、页面列表三端数据一致</text>
-</svg>
-</figure>
+<figure class="screenshot"><img src="assets/demo_ask_deepseek.png" alt="图 3 DeepSeek API 智能问答页"><figcaption>图 3 DeepSeek API 智能问答页</figcaption></figure>
+<p>图 3 展示完整问答链路：用户提问“报告 PDF 必须包含哪些章节？”，系统通过 DeepSeek API 生成答案，并显示模型来源、耗时和上下文数量。回答内容对应课程要求中的七个章节、封面字段和 PDF 导航要求。</p>
+<figure class="screenshot"><img src="assets/demo_sources.png" alt="图 4 本轮检索来源"><figcaption>图 4 本轮检索来源</figcaption></figure>
+<p>图 4 对应 RAG 的证据约束能力。页面展示命中资料、分类、标题、摘要和相似度，便于确认答案来自课程要求、GitHub 仓库要求和报告章节结构等预期来源。</p>
+<figure class="screenshot"><img src="assets/demo_source_detail.png" alt="图 5 知识详情页"><figcaption>图 5 知识详情页</figcaption></figure>
+<p>图 5 展示来源可复核能力。评阅者可以从检索来源进入知识详情页，查看“报告要求”的完整内容，并继续基于该资料追问。</p>
+<figure class="screenshot"><img src="assets/demo_chat_action.png" alt="图 6 聊天触发数据库动作"><figcaption>图 6 聊天触发数据库动作</figcaption></figure>
+<figure class="screenshot"><img src="assets/demo_todo_page.png" alt="图 7 我的办事待办页面"><figcaption>图 7 我的办事待办页面</figcaption></figure>
+<p>图 6 和图 7 对应工具调用与数据库动作能力。用户通过聊天输入自然语言后，Agent 将意图路由到受控工具；待办页面读取同一个 <code>service_requests</code> 表，因此聊天创建的记录会同步出现在页面中。</p>
 <p>典型演示流程包括：注册登录；提问 CS599 报告要求并查看来源；追问“PDF 导航窗格有什么要求”；通过聊天创建“明天提交开题报告”的待办；在“我的办事待办”页面查看数据库记录；再用“完成待办 1”把状态更新为 done；进入知识库页面查看来源详情；启动 MCP Server 并调用 <code>search_knowledge_base</code>。</p>
 <h3 id="5-4-deepseek-联调测试">5.4 DeepSeek 联调测试</h3>
 <p>除了本地抽取式模式，项目也连接 DeepSeek 进行了真实 API 联调。当前 <code>.env</code> 中配置 <code>LLM_PROVIDER=deepseek</code>、<code>LLM_MODEL=deepseek-chat</code>，系统通过 OpenAI 兼容接口调用 DeepSeek；API Key 只从环境变量读取，不写入仓库和报告。</p>
 <p>本次联调选取 4 条代表性问题，覆盖课程报告要求、加分项、校园 VPN 场景和聊天操作数据库。前三条问答用例返回 <code>openai-compatible</code> provider，说明实际答案由 DeepSeek 兼容接口生成；数据库动作返回 <code>system-tool</code> provider，说明 DeepSeek 参与工具路由，实际写库仍由受控后端工具执行。</p>
+<div class="table-caption">表 7 DeepSeek 联调用例结果</div>
 <table><thead><tr><th>问题 / 动作</th><th>Provider</th><th>耗时</th><th>命中率 / 结果</th><th>主要来源 / 数据库结果</th></tr></thead><tbody><tr><td>报告 PDF 必须包含哪些章节？</td><td>openai-compatible</td><td>11768 ms</td><td>1.00</td><td><code>cs599_course_requirements / 报告要求</code></td></tr><tr><td>这个项目有哪些加分技术点？</td><td>openai-compatible</td><td>12028 ms</td><td>1.00</td><td><code>cs599_course_requirements / 评分标准</code></td></tr><tr><td>校外访问电子资源可以共享 VPN 账号吗？</td><td>openai-compatible</td><td>11698 ms</td><td>1.00</td><td><code>REAL-0039 图书馆服务</code>、<code>REAL-0036 校园 VPN</code></td></tr><tr><td>帮我创建一条待办：明天提交开题报告，紧急</td><td>system-tool</td><td>约 7800 ms</td><td>创建成功</td><td>写入 <code>service_requests</code>：标题“提交开题报告”、分类“论文与学位”、优先级 high、状态 open</td></tr></tbody></table>
-<figure class="diagram">
-<svg viewBox="0 0 900 360" role="img" aria-label="DeepSeek 联调测试结果图">
-  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
-  <rect x="50" y="35" width="800" height="285" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="450" y="78" font-size="24" font-weight="800" text-anchor="middle">DeepSeek API 联调通过</text>
-  <text x="180" y="135" font-size="36" font-weight="800" text-anchor="middle">4/4</text><text x="180" y="168" font-size="14" font-weight="500" text-anchor="middle">联调用例通过</text>
-  <text x="450" y="135" font-size="24" font-weight="800" text-anchor="middle">LLM + Tool</text><text x="450" y="168" font-size="14" font-weight="500" text-anchor="middle">问答生成与工具路由</text>
-  <text x="720" y="135" font-size="36" font-weight="800" text-anchor="middle">1.00</text><text x="720" y="168" font-size="14" font-weight="500" text-anchor="middle">关键词命中率</text>
-  <rect x="110" y="205" width="680" height="58" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-  <text x="450" y="230" font-size="14" font-weight="700" text-anchor="middle">测试覆盖：报告章节、加分技术点、VPN 风险、聊天创建待办</text>
-  <text x="450" y="253" font-size="13" font-weight="500" text-anchor="middle">DeepSeek 负责答案生成和工具路由，数据库写入仍由受控后端执行。</text>
-</svg>
-</figure>
+<figure class="screenshot"><img src="assets/deepseek_eval.png" alt="图 8 DeepSeek API 联调结果"><figcaption>图 8 DeepSeek API 联调结果</figcaption></figure>
 <p>DeepSeek 数据库动作联调结果显示，模型将自然语言识别为 <code>create_service_request</code>，工具计划来源为 <code>llm-router</code>，后端成功写入临时 SQLite，并返回“已创建办事记录：#1 [open] 提交开题报告”。这说明系统不仅能用 DeepSeek 生成答案，也能让 DeepSeek 参与受控业务动作路由。</p>
 <h2 id="六-系统升级与扩展">六、系统升级与扩展</h2>
 <h3 id="6-1-可扩展架构">6.1 可扩展架构</h3>
 <p>当前系统采用轻量本地实现，但模块边界为后续扩展预留了空间。检索层可以从本地词频向量替换为真实 embedding + ChromaDB/FAISS/Milvus；Agent 状态机可以迁移到 LangGraph；生成层可以从本地抽取式回答切换到 DeepSeek/OpenAI 兼容模型；日志层可以扩展为 Trace 可视化；MCP Server 可以增加更多工具，例如知识库增量更新、办事状态查询、课程日程提醒等。</p>
 <h3 id="6-2-下一阶段计划">6.2 下一阶段计划</h3>
 <p>下一阶段计划如下：</p>
+<div class="table-caption">表 8 下一阶段升级计划</div>
 <table><thead><tr><th>优先级</th><th>计划</th><th>预期收益</th></tr></thead><tbody><tr><td>P0</td><td>接入真实 embedding 模型和向量数据库</td><td>提升语义召回能力</td></tr><tr><td>P0</td><td>增加 rerank 与“证据不足”判断</td><td>降低无关来源和幻觉风险</td></tr><tr><td>P1</td><td>引入 LangGraph</td><td>支持分支、重试、反思和多工具编排</td></tr><tr><td>P1</td><td>增加 Trace 可视化页面</td><td>展示每步耗时、输入、输出、数据库动作和工具调用</td></tr><tr><td>P1</td><td>云服务器部署</td><td>提供可访问 URL，支撑课堂展示</td></tr><tr><td>P2</td><td>增加权限、审计和限流策略</td><td>接近生产级安全要求</td></tr></tbody></table>
 <h3 id="6-3-ai-能力演进路径">6.3 AI 能力演进路径</h3>
 <p>AI 能力演进路径分为三步。第一步是检索增强：提高资料解析质量、chunk 结构和语义召回。第二步是工具增强：让 Agent 不只回答问题，还能执行受控业务操作。第三步是自治增强：引入任务规划、失败重试、证据自检、用户确认和可观测 Trace，使系统从课程 Demo 演进为更接近生产级的教务问答助手。</p>

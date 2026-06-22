@@ -1,0 +1,11 @@
+<svg viewBox="0 0 900 360" role="img" aria-label="DeepSeek 联调测试结果图">
+  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
+  <rect x="50" y="35" width="800" height="285" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="450" y="78" font-size="24" font-weight="800" text-anchor="middle">DeepSeek API 联调通过</text>
+  <text x="180" y="135" font-size="36" font-weight="800" text-anchor="middle">4/4</text><text x="180" y="168" font-size="14" font-weight="500" text-anchor="middle">联调用例通过</text>
+  <text x="450" y="135" font-size="24" font-weight="800" text-anchor="middle">LLM + Tool</text><text x="450" y="168" font-size="14" font-weight="500" text-anchor="middle">问答生成与工具路由</text>
+  <text x="720" y="135" font-size="36" font-weight="800" text-anchor="middle">1.00</text><text x="720" y="168" font-size="14" font-weight="500" text-anchor="middle">关键词命中率</text>
+  <rect x="110" y="205" width="680" height="58" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="450" y="230" font-size="14" font-weight="700" text-anchor="middle">测试覆盖：报告章节、加分技术点、VPN 风险、聊天创建待办</text>
+  <text x="450" y="253" font-size="13" font-weight="500" text-anchor="middle">DeepSeek 负责答案生成和工具路由，数据库写入仍由受控后端执行。</text>
+</svg>

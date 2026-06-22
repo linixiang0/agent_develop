@@ -1,0 +1,14 @@
+<svg viewBox="0 0 900 330" role="img" aria-label="数据流设计图">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/></marker></defs>
+  <style>svg { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; } text { fill: #0f172a; }</style>
+  <rect x="40" y="45" width="170" height="70" rx="8" fill="#e0f2fe" stroke="#64748b"/><text x="125" y="72" font-size="14" font-weight="700" text-anchor="middle">data/raw</text><text x="125" y="95" font-size="12" font-weight="400" text-anchor="middle">原始资料</text>
+  <rect x="270" y="45" width="150" height="70" rx="8" fill="#fef3c7" stroke="#64748b"/><text x="345" y="72" font-size="14" font-weight="700" text-anchor="middle">Chunks</text><text x="345" y="95" font-size="12" font-weight="400" text-anchor="middle">结构化片段</text>
+  <rect x="480" y="45" width="170" height="70" rx="8" fill="#dcfce7" stroke="#64748b"/><text x="565" y="72" font-size="14" font-weight="700" text-anchor="middle">vectorstore.json</text><text x="565" y="95" font-size="12" font-weight="400" text-anchor="middle">持久化索引</text>
+  <path d="M210 80 L270 80" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M420 80 L480 80" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <rect x="40" y="205" width="170" height="70" rx="8" fill="#ede9fe" stroke="#64748b"/><text x="125" y="232" font-size="14" font-weight="700" text-anchor="middle">User Question</text><text x="125" y="255" font-size="12" font-weight="400" text-anchor="middle">自然语言问题</text>
+  <rect x="270" y="205" width="150" height="70" rx="8" fill="#dbeafe" stroke="#64748b"/><text x="345" y="232" font-size="14" font-weight="700" text-anchor="middle">Retriever</text><text x="345" y="255" font-size="12" font-weight="400" text-anchor="middle">top_k 召回</text>
+  <rect x="480" y="205" width="170" height="70" rx="8" fill="#fce7f3" stroke="#64748b"/><text x="565" y="232" font-size="14" font-weight="700" text-anchor="middle">Evidence</text><text x="565" y="255" font-size="12" font-weight="400" text-anchor="middle">chunk + score</text>
+  <rect x="710" y="205" width="150" height="70" rx="8" fill="#dcfce7" stroke="#64748b"/><text x="785" y="232" font-size="14" font-weight="700" text-anchor="middle">Response</text><text x="785" y="255" font-size="12" font-weight="400" text-anchor="middle">答案 + 引用</text>
+  <path d="M210 240 L270 240" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M420 240 L480 240" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/><path d="M650 240 L710 240" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <path d="M565 115 L345 205" stroke="#334155" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+</svg>

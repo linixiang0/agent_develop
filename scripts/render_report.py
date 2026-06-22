@@ -125,6 +125,11 @@ def render_markdown(markdown: str) -> tuple[str, str, list[tuple[int, str]]]:
             flush_paragraph()
             flush_lists_and_table()
             continue
+        if re.match(r"^表\s*\d+\s+.+$", line):
+            flush_paragraph()
+            flush_lists_and_table()
+            blocks.append(f'<div class="table-caption">{inline(line)}</div>')
+            continue
         image = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)$", line)
         if image:
             flush_paragraph()
@@ -565,7 +570,7 @@ def render_page(title: str, fields: list[tuple[str, str]], toc: str, body: str) 
   <style>
     @page {{ size: A4; margin: 18mm 16mm; }}
     * {{ box-sizing: border-box; }}
-    body {{ margin: 0; color: #111827; font-family: "Microsoft YaHei", "Noto Sans CJK SC", "SimSun", Arial, sans-serif; line-height: 1.68; }}
+    body {{ margin: 0; color: #111827; font-family: "Microsoft YaHei", "Noto Sans CJK SC", "SimSun", Arial, sans-serif; line-height: 1.72; }}
     main {{ max-width: 920px; margin: 0 auto; }}
     .cover {{ min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; }}
     .cover h1 {{ font-size: 30px; text-align: center; margin: 0 0 36px; letter-spacing: 0; }}
@@ -573,7 +578,7 @@ def render_page(title: str, fields: list[tuple[str, str]], toc: str, body: str) 
     .cover th {{ width: 28%; background: #eef2f7; text-align: left; }}
     h2 {{ font-size: 22px; margin-top: 28px; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px; page-break-after: avoid; }}
     h3 {{ font-size: 17px; margin-top: 20px; color: #0f172a; page-break-after: avoid; }}
-    p {{ margin: 8px 0; text-align: justify; }}
+    p {{ margin: 8px 0; text-align: justify; text-indent: 2em; }}
     ul, ol {{ margin: 8px 0 12px 22px; padding: 0; }}
     li {{ margin: 4px 0; }}
     code {{ background: #f2f4f8; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px 4px; font-family: Consolas, monospace; }}
@@ -582,15 +587,16 @@ def render_page(title: str, fields: list[tuple[str, str]], toc: str, body: str) 
     table {{ width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 14px; page-break-inside: avoid; }}
     th, td {{ border: 1px solid #cbd5e1; padding: 7px 9px; vertical-align: top; }}
     th {{ background: #eef2f7; }}
+    .table-caption {{ margin: 14px 0 6px; color: #1e293b; font-size: 13px; font-weight: 700; text-align: center; }}
     .toc {{ border: 1px solid #cbd5e1; background: #f8fafc; padding: 18px 22px; margin: 0 0 24px; page-break-after: always; }}
     .toc h2 {{ margin-top: 0; border-bottom: 0; }}
     .toc a {{ display: block; color: #1d4ed8; text-decoration: none; margin: 4px 0; }}
     .toc-l3 {{ padding-left: 20px; font-size: 14px; }}
     .diagram {{ margin: 12px 0 18px; page-break-inside: avoid; }}
     .diagram svg {{ width: 100%; height: auto; display: block; }}
-    .screenshot {{ margin: 12px 0 18px; page-break-inside: avoid; }}
-    .screenshot img {{ width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; display: block; }}
-    .screenshot figcaption {{ color: #475569; font-size: 13px; text-align: center; margin-top: 6px; }}
+    .screenshot {{ margin: 14px 0 20px; padding: 8px; background: #ffffff; border: 1px solid #d8e1ee; border-radius: 6px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); page-break-inside: avoid; }}
+    .screenshot img {{ width: 100%; height: auto; border: 0; border-radius: 3px; display: block; image-rendering: auto; }}
+    .screenshot figcaption {{ color: #1e293b; font-size: 13px; font-weight: 600; text-align: center; margin-top: 7px; }}
     @media print {{ a {{ color: inherit; }} }}
   </style>
 </head>
