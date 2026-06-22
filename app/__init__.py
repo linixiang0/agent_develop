@@ -1,0 +1,2 @@
+"""EduRAG-Agent application package."""
+

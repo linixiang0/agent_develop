@@ -1,0 +1,12 @@
+services:
+  edurag-agent:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: EduRAG-Agent
+      APP_ENV: docker
+      LLM_PROVIDER: local
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs

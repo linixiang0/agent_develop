@@ -1,0 +1,152 @@
+[
+  {
+    "id": "cs599-deadline",
+    "question": "CS599 期末大作业最终提交截止时间是什么？",
+    "expected_keywords": ["2026 年 6 月 22 日", "23:00", "GitHub"],
+    "expected_sources": ["cs599_course_requirements"]
+  },
+  {
+    "id": "cs599-report-chapters",
+    "question": "CS599 报告需要包含哪些主要章节？",
+    "expected_keywords": ["选题背景", "Specs", "系统架构", "测试与评估", "课程总结"],
+    "expected_sources": ["cs599_course_requirements"]
+  },
+  {
+    "id": "cs599-private-repo",
+    "question": "如果 GitHub 仓库是 Private，需要做什么？",
+    "expected_keywords": ["qxr777", "Collaborator"],
+    "expected_sources": ["cs599_course_requirements"]
+  },
+  {
+    "id": "cs599-core-tech",
+    "question": "课程大作业至少要覆盖哪些 Agentic AI 技术要素？",
+    "expected_keywords": ["SDD", "Function Calling", "记忆机制", "状态管理", "可观测性"],
+    "expected_sources": ["cs599_course_requirements"]
+  },
+  {
+    "id": "cs599-bonus",
+    "question": "CS599 大作业有哪些加分项？",
+    "expected_keywords": ["MCP", "Agentic RAG", "云服务器", "生产级"],
+    "expected_sources": ["cs599_course_requirements"]
+  },
+  {
+    "id": "cs599-pdf-navigation",
+    "question": "报告 PDF 为什么要包含导航窗格、书签或目录导航？",
+    "expected_keywords": ["PDF", "导航", "书签", "目录"],
+    "expected_sources": ["cs599_course_requirements"]
+  },
+  {
+    "id": "student-status-suspension",
+    "question": "研究生因病想休学，一般需要准备什么材料和审批？",
+    "expected_keywords": ["休学", "导师", "学院", "证明"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "student-status-return",
+    "question": "研究生休学期满准备复学时，需要注意哪些事项？",
+    "expected_keywords": ["复学", "导师", "学院", "学籍"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "training-plan-change",
+    "question": "培养计划变更通常要走什么流程？",
+    "expected_keywords": ["培养计划", "变更", "导师", "学院"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "course-retake",
+    "question": "研究生课程不及格后，重修或补修要注意什么？",
+    "expected_keywords": ["重修", "补修", "培养方案", "学分"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "exam-deferral",
+    "question": "如果研究生因为突发疾病不能参加考试，应该怎么处理？",
+    "expected_keywords": ["缓考", "申请", "任课教师", "教务"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "thesis-proposal",
+    "question": "学位论文开题报告通常要写哪些内容？",
+    "expected_keywords": ["研究背景", "研究方法", "技术路线", "进度计划"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "midterm-check",
+    "question": "研究生中期考核一般会看哪些方面？",
+    "expected_keywords": ["课程学分", "科研进展", "论文", "学术规范"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "pre-defense",
+    "question": "硕士论文预答辩前通常需要准备哪些材料？",
+    "expected_keywords": ["论文初稿", "查重", "导师意见", "PPT"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "thesis-review",
+    "question": "论文盲审送审前一般要完成哪些检查？",
+    "expected_keywords": ["导师审核", "资格审查", "学术不端", "格式"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "defense-eligibility",
+    "question": "申请学位论文答辩前，要核对哪些资格条件？",
+    "expected_keywords": ["课程学分", "培养环节", "论文评阅", "学术规范"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "thesis-misconduct",
+    "question": "学位论文作假可能带来哪些后果？",
+    "expected_keywords": ["作假", "答辩无效", "学位", "处分"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "ai-disclosure",
+    "question": "课程报告里使用生成式 AI 工具，需要注意什么？",
+    "expected_keywords": ["AI", "核验", "disclosure", "原创"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "national-scholarship",
+    "question": "研究生国家奖学金评审通常重点看什么？",
+    "expected_keywords": ["学业成绩", "科研", "综合表现", "公示"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "teaching-assistant",
+    "question": "研究生助教岗位一般承担哪些工作，不能做什么？",
+    "expected_keywords": ["答疑", "批改作业", "泄露试题", "评分"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "vpn-service",
+    "question": "校外访问图书馆数据库时，VPN 或 WebVPN 使用上要注意什么？",
+    "expected_keywords": ["VPN", "WebVPN", "授权资源", "共享账号"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "library-database",
+    "question": "使用学校电子资源和数据库时，为什么不能批量下载？",
+    "expected_keywords": ["电子资源", "批量下载", "封禁", "版权"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "ethics-review",
+    "question": "哪些研究场景通常需要提前做伦理审查？",
+    "expected_keywords": ["人体", "问卷", "个人信息", "伦理审查"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "support-path",
+    "question": "遇到研究生教务问题时，推荐按什么路径升级咨询？",
+    "expected_keywords": ["导师", "学院", "研究生院", "截图"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  },
+  {
+    "id": "source-transparency",
+    "question": "这个项目如何区分真实公开资料和演示合成资料？",
+    "expected_keywords": ["公开", "摘要", "合成", "透明度"],
+    "expected_sources": ["real_public_grad_service_knowledge"]
+  }
+]

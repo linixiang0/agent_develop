@@ -1,0 +1,10 @@
+[project]
+name = "edurag-agent"
+version = "0.1.0"
+description = "Agentic RAG question answering system for CS599 final project."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
